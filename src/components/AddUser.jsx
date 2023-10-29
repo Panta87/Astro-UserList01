@@ -12,15 +12,13 @@ const AddUser = ({ onAddUser }) => {
   const handleUserEmailChange = (e) => {
     const email = e.target.value;
     setUserEmail(email);
-    // Validacija e-mail adrese prilikom svake promene
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,4}$/;
     const isValid = emailPattern.test(email);
     setEmailValid(isValid);
   };
 
   const handleAddUser = () => {
-    // Validacija e-mail adrese pre dodavanja
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,4}$/;
     const isValid = emailPattern.test(userEmail);
     setEmailValid(isValid);
 
@@ -29,6 +27,12 @@ const AddUser = ({ onAddUser }) => {
       setUserName("");
       setUserEmail("");
       setEmailValid(true);
+    }
+  };
+
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAddUser();
     }
   };
 
@@ -50,6 +54,7 @@ const AddUser = ({ onAddUser }) => {
           placeholder="Email"
           value={userEmail}
           onChange={handleUserEmailChange}
+          onKeyPress={handleEnterKeyPress}
           className={`w-full p-2 border rounded focus:outline-none ${
             emailValid ? "border-blue-500" : "border-red-500"
           }`}
