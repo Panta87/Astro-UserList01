@@ -3,30 +3,38 @@ import React, { useState } from "react";
 const AddUser = ({ onAddUser }) => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [nameValid, setNameValid] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
 
   const handleUserNameChange = (e) => {
-    setUserName(e.target.value);
+    const name = e.target.value;
+    setUserName(name);
+    const namePattern = /^[A-Za-z\s]+$/;
+    const isValid = namePattern.test(name);
+    setNameValid(isValid);
   };
 
   const handleUserEmailChange = (e) => {
     const email = e.target.value;
     setUserEmail(email);
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const isValid = emailPattern.test(email);
     setEmailValid(isValid);
   };
 
   const handleAddUser = () => {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,4}$/;
-    const isValid = emailPattern.test(userEmail);
-    setEmailValid(isValid);
+    const namePattern = /^[A-Za-z\s]+$/;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const isNameValid = namePattern.test(userName);
+    const isEmailValid = emailPattern.test(userEmail);
 
-    if (userName && userEmail && isValid) {
+    setNameValid(isNameValid);
+    setEmailValid(isEmailValid);
+
+    if (isNameValid && isEmailValid) {
       onAddUser({ name: userName, email: userEmail });
       setUserName("");
       setUserEmail("");
-      setEmailValid(true);
     }
   };
 
@@ -45,8 +53,13 @@ const AddUser = ({ onAddUser }) => {
           placeholder="Name"
           value={userName}
           onChange={handleUserNameChange}
-          className="w-full p-2 border border-blue-500 rounded focus:outline-none focus:border-blue-600"
+          className={`w-full p-2 border rounded focus:outline-none ${
+            nameValid ? "border-blue-500" : "border-red-500"
+          }`}
         />
+        {!nameValid && (
+          <p className="text-red-500 text-sm mt-1">Invalid name</p>
+        )}
       </div>
       <div className="mb-4">
         <input
@@ -65,7 +78,7 @@ const AddUser = ({ onAddUser }) => {
       </div>
       <button
         onClick={handleAddUser}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover-bg-blue-600 transition duration-300"
       >
         Add
       </button>

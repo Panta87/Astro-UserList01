@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AddUser from "./AddUser";
+import "animate.css";
 
 const UserList = () => {
   const [searchText, setSearchText] = useState("");
@@ -35,6 +36,7 @@ const UserList = () => {
   };
 
   const handleAddUser = (newUser) => {
+    newUser.animationClass = "animate__animated animate__fadeIn";
     setFilteredUsers([...filteredUsers, newUser]);
   };
 
@@ -53,7 +55,7 @@ const UserList = () => {
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredUsers.map((user) => (
           <a key={user.id} href={`users/${user.id}`}>
-            <li className="p-4 rounded-lg border border-blue-500 transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg bg-gradient-to-b from-blue-300 to-blue-400">
+            <li className={`p-4 rounded-lg border border-blue-500 transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg bg-gradient-to-b from-blue-300 to-blue-400 ${user.animationClass}`}>
               <h2 className="text-xl font-semibold text-blue-900">
                 {user.name}
               </h2>
