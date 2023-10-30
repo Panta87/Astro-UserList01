@@ -3,15 +3,15 @@ import node from "@astrojs/node";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 
+import vercel from "@astrojs/vercel/serverless";
+
 // https://astro.build/config
 export default defineConfig({
   adapters: {
     node: true,
-    output: "server",
+    output: "server"
   },
   output: "server",
-  adapter: node({
-    mode: "standalone",
-  }),
-  integrations: [tailwind(), react()],
+  adapter: vercel(),
+  integrations: [tailwind(), react()]
 });
